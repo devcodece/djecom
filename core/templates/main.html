@@ -1,4 +1,5 @@
 {% load static %}
+{% load cart_template_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +28,7 @@
 
       <!-- Brand -->
       <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
-        <strong class="blue-text">MDB</strong>
+        <strong class="blue-text">DJ E-COMMERCE</strong>
       </a>
 
       <!-- Collapse -->
@@ -41,49 +42,44 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <!-- <li class="nav-item active">
             <a class="nav-link waves-effect" href="#">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">About MDB</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
-              target="_blank">Free download</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Free
-              tutorials</a>
-          </li>
+            <a class="nav-link waves-effect" href="#"
+              target="_blank">Checkout</a>
+          </li> -->
         </ul>
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
+          {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link waves-effect">
-              <span class="badge red z-depth-1 mr-1"> 1 </span>
+              <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_item_count }} </span>
               <i class="fas fa-shopping-cart"></i>
               <span class="clearfix d-none d-sm-inline-block"> Cart </span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-facebook-f"></i>
+            <a class="nav-link waves-effect" href="{% url 'account_logout' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Logout </span>
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link waves-effect" href="{% url 'account_login' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Login </span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-twitter"></i>
+            <a class="nav-link waves-effect" href="{% url 'account_signup' %}">
+              <span class="clearfix d-none d-sm-inline-block"> Signup </span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="nav-link border border-light rounded waves-effect"
-              target="_blank">
-              <i class="fab fa-github mr-2"></i>MDB GitHub
-            </a>
-          </li>
+          {% endif %}
         </ul>
 
       </div>
@@ -91,6 +87,20 @@
     </div>
   </nav>
   <!-- Navbar -->
+  <div class="mt-5 pt-4">
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button class="close" data-dismiss="alert" aria-label="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+
 
 {% block content %}
 {% endblock content %}
@@ -98,23 +108,8 @@
   <!--Footer-->
   <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
-    <!--Call to action-->
-    <div class="pt-4">
-      <a class="btn btn-outline-white" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank"
-        role="button">Download MDB
-        <i class="fas fa-download ml-2"></i>
-      </a>
-      <a class="btn btn-outline-white" href="https://mdbootstrap.com/education/bootstrap/" target="_blank" role="button">Start
-        free tutorial
-        <i class="fas fa-graduation-cap ml-2"></i>
-      </a>
-    </div>
-    <!--/.Call to action-->
-
-    <hr class="my-4">
-
     <!-- Social icons -->
-    <div class="pb-4">
+    <div class="py-4">
       <a href="https://www.facebook.com/mdbootstrap" target="_blank">
         <i class="fab fa-facebook-f mr-3"></i>
       </a>
